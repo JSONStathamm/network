@@ -1,0 +1,23 @@
+log-append /var/log/openvpn/openvpn.log #файл с возникающими ошибками
+verb 5 #уровень детализации файла с возникающими ошибками
+local 192.160.1.20
+port 1194
+proto udp
+dev tun
+ca ca.crt
+cert server.crt
+key server.key
+dh dh2048.pem
+topology subnet # указание на топологию создаваемой VPN-сети
+server <IP сеть туннеля> <маска туннеля>
+ifconfig-pool-persist /var/log/openvpn/ipp.txt
+push "route 192.160.2.0 255.240.0.0"
+keepalive 10 120
+tls-auth /etc/openvpn/server/ta.key 0
+cipher AES-256-CBC
+comp-lzo # сжатие
+persist-key
+persist-tun
+status /var/log/openvpn/openvpn-status.log
+explicit-exit-notify 1
+allow-compression yes
